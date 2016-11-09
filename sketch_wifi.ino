@@ -17,6 +17,15 @@ void setup(void) {
   pinMode(ledRed, OUTPUT);
   pinMode(ledBlue, OUTPUT);
   pinMode(ledGreen, OUTPUT);
+  
+  Serial.print("Wait for connect to WiFi.");
+
+  if (WiFi.status() != WL_CONNECTED) {
+    while (WiFi.status() != WL_CONNECTED) {
+      Serial.print(".");
+      delay(500);
+    }
+  }
 }
 
 void loop() {
