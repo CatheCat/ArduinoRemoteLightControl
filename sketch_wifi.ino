@@ -2,12 +2,21 @@
 #include <SPI.h>
 #include <WiFiUdp.h>
 
-void setup() {
-  // put your setup code here, to run once:
-  pinMode(12, OUTPUT);
-  pinMode(13, OUTPUT);
-  pinMode(14, OUTPUT);
-  pinMode(16, OUTPUT);
+WiFiUDP Udp;
+const char* ssid = "AP NAME";
+const char* password = "PASSWORD";
+const int VCC = 12;
+const int ledRed = 13;
+const int ledBlue = 14;
+const int ledGreen = 16;
+
+void setup(void) {
+  Serial.begin(115200);
+  WiFi.begin(ssid, password);
+  pinMode(VCC, OUTPUT);
+  pinMode(ledRed, OUTPUT);
+  pinMode(ledBlue, OUTPUT);
+  pinMode(ledGreen, OUTPUT);
 }
 
 void loop() {
