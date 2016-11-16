@@ -133,6 +133,26 @@ void PowerOff() {
   GreenOff();
 }
 
+void LedOn(int ledId) {
+  digitalWrite(myLed[ledId], LOW);
+}
+
+void LedAllOn() {
+  for (int i = 0; i < sizeof(myLed); i++) {
+    LedOn(i);
+  }
+}
+
+void LedOff(int ledId) {
+  digitalWrite(myLed[ledId], HIGH);
+}
+
+void LedAllOff() {
+  for (int i = 0; i < sizeof(myLed); i++) {
+    LedOff(i);
+  }
+}
+
 void RedOn() {
   digitalWrite(ledRGB[0], LOW);
 }
