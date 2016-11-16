@@ -11,10 +11,9 @@ WiFiUDP Udp;
 const char* ssid = "AP NAME";
 const char* password = "PASSWORD";
 // 定義腳位
-const int VCC = 12;
-const int ledRed = 13;
-const int ledBlue = 14;
-const int ledGreen = 16;
+const int VCC = 16;
+const int ledRGB[] = { 13, 12, 14 };
+const int myLed[] = { 4, 5, 0, 2, 15 };
 // UDP通訊port
 unsigned int port = 13000;
 char packetBuffer[UDP_TX_PACKET_MAX_SIZE];
@@ -23,11 +22,8 @@ char replyBuffer[] = "read";
 byte isBlink = 0;
 byte isOn = 0;
 long previousTime;
-// Delay time
+// Delay Time
 long myDelay = 1000;
-// Marquee
-byte isMarquee = 0;
-
 
 void printWiFiStatus();
 
@@ -35,9 +31,17 @@ void setup(void) {
   Serial.begin(115200);
   WiFi.begin(ssid, password);
   pinMode(VCC, OUTPUT);
-  pinMode(ledRed, OUTPUT);
-  pinMode(ledBlue, OUTPUT);
-  pinMode(ledGreen, OUTPUT);
+  digitalWrite(VCC, HIGH);
+
+  for (int i = 0; i < sizeof(ledRGB); i++) {
+    pinMode(ledRGB[i], OUTPUT);
+    digitalWrite(ledRGB[i], HIGH);
+  }
+
+  for (int i = 0; i < sizeof(myLed); i++) {
+    pinMode(myLed[i], OUTPUT);
+    digitalWrite(myLed[i], HIGH);
+  }
   
   Serial.print("Wait for connect to WiFi.");
   if (WiFi.status() != WL_CONNECTED) {
