@@ -1,16 +1,22 @@
+// 加入引用的標頭
 #include <ESP8266WiFi.h>
 #include <SPI.h>
 #include <WiFiUdp.h>
 
+// 宣告Udp物件
 WiFiUDP Udp;
+
+// [全域變數]
+// 連接WiFi SSID and passwd
 const char* ssid = "AP NAME";
 const char* password = "PASSWORD";
+// 定義腳位
 const int VCC = 12;
 const int ledRed = 13;
 const int ledBlue = 14;
 const int ledGreen = 16;
+// UDP通訊port
 unsigned int port = 13000;
-
 char packetBuffer[UDP_TX_PACKET_MAX_SIZE];
 char replyBuffer[] = "read";
 
@@ -33,6 +39,14 @@ void setup(void) {
     printWiFiStatus();
   }
   Udp.begin(port);
+}
+
+void printWiFiStatus() {
+  Serial.println("");
+  Serial.print("Connected to ");
+  Serial.println(ssid);
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
 }
 
 int readPacket() {
