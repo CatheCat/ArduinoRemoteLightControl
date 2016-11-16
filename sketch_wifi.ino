@@ -19,6 +19,10 @@ const int ledGreen = 16;
 unsigned int port = 13000;
 char packetBuffer[UDP_TX_PACKET_MAX_SIZE];
 char replyBuffer[] = "read";
+// Blink
+byte isBlink = 0;
+byte isOn = 0;
+long previousTime;
 
 void printWiFiStatus();
 
@@ -86,9 +90,24 @@ void packageName()
   String str(packageBuffer);
   if (strcmp(packetBuffer, "ON") == 0) {
     PowerOn();
-  }
-  else if (strcmp(packetBuffer, "OFF") == 0) {
+  } else if (strcmp(packetBuffer, "OFF") == 0) {
     PowerOff();
+  } else if (strcmp(packetBuffer, "REDON") == 0) {
+    RedOn();
+  } else if (strcmp(packetBuffer, "REDOFF") == 0) {
+    RedOff();
+  } else if (strcmp(packetBuffer, "BLUEON") == 0) {
+    BlueOn();
+  } else if (strcmp(packetBuffer, "BLUEOFF") == 0) {
+    BlueOff();
+  } else if (strcmp(packetBuffer, "GREENON") == 0) {
+    GreenOn();
+  } else if (strcmp(packetBuffer, "GREENOFF") == 0) {
+    GreenOff();
+  } else if (strcmp(packetBuffer, "BLINKON") == 0) {
+    isBlink = 1;
+  } else if (strcmp(packetBuffer, "BLINKOFF") == 0) {
+    isBlink = 0;
   }
 
   Serial.println(packetBuffer);
