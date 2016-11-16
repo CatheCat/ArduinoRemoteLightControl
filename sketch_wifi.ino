@@ -80,8 +80,67 @@ int readPacket() {
   return (packetSize);
 }
 
+void packageName()
+{
+  // 讀取接收到的動作(字串)
+  String str(packageBuffer);
+  if (strcmp(packetBuffer, "ON") == 0) {
+    PowerOn();
+  }
+  else if (strcmp(packetBuffer, "OFF") == 0) {
+    PowerOff();
+  }
+
+  Serial.println(packetBuffer);
+  memset(packetBuffer, 0, sizeof(packetBuffer));
+}
+
+void PowerOn() {
+  digitalWrite(VCC, HIGH);
+  LedAllOn();
+
+  RedOn();
+  BlueOn();
+  GreenOn();
+}
+
+void PowerOff() {
+  digitalWrite(VCC, LOW);
+
+  LedAllOff();
+
+  RedOff();
+  BlueOff();
+  GreenOff();
+}
+
+void RedOn() {
+  digitalWrite(ledRGB[0], LOW);
+}
+
+void RedOff() {
+  digitalWrite(ledRGB[0], HIGH);
+}
+
+void BlueOn() {
+  digitalWrite(ledRGB[1], LOW);
+}
+
+void BlueOff() {
+  digitalWrite(ledRGB[1], HIGH);
+}
+
+void GreenOn() {
+  digitalWrite(ledRGB[2], LOW);
+}
+
+void GreenOff() {
+  digitalWrite(ledRGB[2], HIGH);
+}
+
 void loop(void) {
   if (readPacket()) {
-  
+    Serial.println("Read.");
+    packageName();
   }
 }
