@@ -11,6 +11,9 @@ const int ledBlue = 14;
 const int ledGreen = 16;
 unsigned int port = 13000;
 
+char packetBuffer[UDP_TX_PACKET_MAX_SIZE];
+char replyBuffer[] = "read";
+
 void printWiFiStatus();
 
 void setup(void) {
@@ -32,7 +35,39 @@ void setup(void) {
   Udp.begin(port);
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
+int readPacket() {
+  int packetSize = Udp.parsePacket();
+  if (packetSize) {
+    Serial.print("Received packet size: ");
+    Serial.println(packetSize);
+    Serial.print("From: ");
+    IPAddress remote = Udp.remoteIP();
 
+    for (int i = 0; i < 4; i++) {
+      Serial.print(remote[i], DEC);
+
+      if (i < 3) {
+        Serial.print(".");
+      }
+    }
+
+    Serial.print(", Port: ");
+    Serial.println(Udp.remotePort());
+    Udp.read(packetBuffer, UDP_TX_PACKET_MAX_SIZE);
+    Serial.println("Contents:");
+    Serial.println(packetBuffer);
+
+    Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
+    Udp.write(replyBuffer);
+    Udp.endPacket();
+  }
+
+  delay(10);
+  return (packetSize);
+}
+
+void loop(void) {
+  if (readPacket()) {
+  
+  }
 }
