@@ -23,6 +23,11 @@ char replyBuffer[] = "read";
 byte isBlink = 0;
 byte isOn = 0;
 long previousTime;
+// Delay time
+long myDelay = 1000;
+// Marquee
+byte isMarquee = 0;
+
 
 void printWiFiStatus();
 
@@ -177,9 +182,29 @@ void GreenOff() {
   digitalWrite(ledRGB[2], HIGH);
 }
 
+void FlashAll() {
+  if (isBlink == 1) {
+    unsigned long currentTime = millis();
+
+    if (currentTime - previousTime > myDelay) {
+      if (isOn == 0) {
+        LedAllOn();
+        isOn = 1;
+      }
+      else {
+        LedAllOff();
+        isOn = 0;
+      }
+
+      previousTime = currentTime;
+    }
+  }
+}
+
 void loop(void) {
   if (readPacket()) {
     Serial.println("Read.");
     packageName();
   }
+  FlashAll();
 }
